@@ -15,6 +15,7 @@ namespace TalabatAPI.DTO
  
         [Required]
         public int DeliveryMethodId { get; set; }
-       
+        public string? PaymentInentId { get; set; }
+
     }
 }

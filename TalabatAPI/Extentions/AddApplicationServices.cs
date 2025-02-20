@@ -22,6 +22,8 @@ namespace TalabatAPI.Extentions
     {
         public static  IServiceCollection ApplicationServices(this IServiceCollection services) 
         {
+            services.AddSingleton<IResponseCachedServise, ResponseCachedServise>();
+            services.AddScoped<IPaymentServices, PaymentService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddLogging();

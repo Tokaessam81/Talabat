@@ -32,7 +32,7 @@ namespace Talabat.Repository.Repositories
             return await ApplyQuery(spec).ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(int? id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

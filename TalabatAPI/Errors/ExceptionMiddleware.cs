@@ -33,7 +33,7 @@ namespace TalabatAPI.Errors
                 var response =
                     _env.IsDevelopment ()?
                     new ApiExtentionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString())
-                    : new ApiExtentionResponse((int)HttpStatusCode.InternalServerError);
+                    : new ApiExtentionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString());
                 var option = new JsonSerializerOptions()
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

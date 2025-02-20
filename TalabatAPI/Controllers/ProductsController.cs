@@ -29,7 +29,8 @@ namespace TalabatAPI.Controllers
             _category = category;
             _mapper = mapper;
         }
-        
+        [Cache(300)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProductsAsyncWithSpecification([FromQuery]ProductSpecParams spec)
         {

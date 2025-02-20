@@ -9,19 +9,21 @@ namespace Talabat.Core.Order_Aggregate
 {
     public class Order:BaseEntity
     {
+
         public Order()
         {
         }
 
-        public Order(string buyerEmail, Address address, DeliveryMethod deliveryMethod, ICollection<OrderItem> orderItems, decimal subTotal)
+        public Order(string buyerEmail, Address address, DeliveryMethod deliveryMethod, ICollection<OrderItem> orderItems, decimal subTotal, string? paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             this.shippingAddress = address;
             this.deliveryMethod = deliveryMethod;
             OrderItems = orderItems;
             this.subTotal = subTotal;
+            PaymentInitId = paymentIntentId;
         }
-
+        
         public string BuyerEmail { get; set; }
         public DateTimeOffset OrderDate { get; set; }= DateTimeOffset.UtcNow;
 

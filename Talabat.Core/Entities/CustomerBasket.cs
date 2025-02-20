@@ -19,5 +19,8 @@ namespace Talabat.Core.Entities
         }
         public string Id { get; set; }
         public List<BasketItem> Items { get; set; }
+        public string? PaymentIntetId { get; set; }
+        public string? ClientSecret { get; set; }
+        public int? DeliveryMethodId { get; set; }
     }
 }

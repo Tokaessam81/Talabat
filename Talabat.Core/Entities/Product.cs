@@ -13,7 +13,7 @@ namespace Talabat.Core.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string PictureUrl { get; set; }
-        public Decimal Price { get; set; }
+        public decimal Price { get; set; }
         //Forign Key
         public int BrandId { get; set; }
         public int CategoryId { get; set; }

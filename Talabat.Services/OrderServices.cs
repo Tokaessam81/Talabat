@@ -17,15 +17,17 @@ namespace Talabat.Services
         
         private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentServices _payment;
 
         public OrderServices(IBasketRepository basketRepo
-           ,IUnitOfWork unitOfWork)
+           ,IUnitOfWork unitOfWork,IPaymentServices payment)
         {
             _basketRepo = basketRepo;
            _unitOfWork = unitOfWork;
+            _payment = payment;
         }
 
-        public async Task<Order> CreateAsync(string BuyerEmail,string basketId, Address shippingAddress, int DeliveryMethodId)
+        public async Task<Order> CreateAsync(string BuyerEmail,string basketId, Address shippingAddress, int DeliveryMethodId,string? paymentIntentId)
         {
             //1.Get basket from basket repo
             var basket =await _basketRepo.GetBasketAsync(basketId);
@@ -47,7 +49,15 @@ namespace Talabat.Services
             //GetDeliveryMethod from deliverymethodRepo
             var deliverymethod =await _unitOfWork.Repository<DeliveryMethod>().GetById(DeliveryMethodId);
             //create order
-            var order=new Order(BuyerEmail,shippingAddress, deliverymethod, orderItems,subTotal);
+            var orderspec=new OrderWithPaymentIntentSpec(basket.PaymentIntetId);
+            var getorder =await _unitOfWork.Repository<Order>().GetByIdSpecification(orderspec);
+            if (getorder != null)
+            {
+                _unitOfWork.Repository<Order>().Delete(getorder);
+               await _payment.CreatePaymentIntent(basketId);
+
+            }
+            var order=new Order(BuyerEmail,shippingAddress, deliverymethod, orderItems,subTotal, basket.PaymentIntetId);
             await _unitOfWork.Repository<Order>().CreatAsync(order);
             //sava to database
             var result=  await  _unitOfWork.completeAsync();
